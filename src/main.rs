@@ -7,17 +7,22 @@ mod extract;
 mod structure;
 
 fn main() {
+    // for writing file into archive
+    /*
     let path = String::from("./andra.txt");
+    let path2 = String::from("./an.txt");
     let file = AFiles::new(path);
-    for content in &file.contents {
-        let str_content = char::from(*content);
-        print!("{}", str_content);
-    }
+    let file2 = AFiles::new(path2);
     let mut header = AHeader::new();
-    header.insert(file);
+    header.insert_file(file);
+    header.insert_file(file2);
     let path_header = String::from("./archive.waw");
-    header.write(path_header);
+    header.write_archive_to(path_header);
+    */
 
+    // for writing extracted files
+    let mut header_extract = AHeader::new();
     let file_header = fs::read("./archive.waw").expect("cannot read the file");
-    AHeader::parse_header(file_header);
+    header_extract.parse_header(file_header);
+    header_extract.write_extract_files();
 }

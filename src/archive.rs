@@ -23,13 +23,16 @@ pub fn get_name_from_path(path: &String) -> String {
         }
         name = format!("{}{}", path.chars().nth(i).unwrap(), name);
     }
-    return name;
+    name
 }
 
 impl AFiles {
     pub fn new(path: String) -> AFiles {
         let contents = get_file_content(&path).expect("cant get content of file");
         let name = get_name_from_path(&path);
+        AFiles { name, contents }
+    }
+    pub fn from(name: String, contents: Vec<u8>) -> AFiles {
         AFiles { name, contents }
     }
 }
@@ -41,10 +44,10 @@ impl AHeader {
             files: Vec::new(),
         }
     }
-    pub fn insert(&mut self, file: AFiles) {
+    pub fn insert_file(&mut self, file: AFiles) {
         self.files.push(file);
     }
-    pub fn write(&mut self, path: String) {
+    pub fn write_archive_to(&mut self, path: String) {
         let mut w_file = File::create(path).expect("cannot creating file");
         w_file
             .write_all(&self.signature.to_be_bytes())
@@ -53,6 +56,9 @@ impl AHeader {
             w_file
                 .write_all(&Token::LOCAL_FILE_HEADER.to_be_bytes())
                 .expect("cannot write content");
+            w_file
+                .write_all(file.name.as_bytes())
+                .expect("cannow write content");
             w_file
                 .write_all(&Token::CENTRAL_DIRECTORY_HEADER.to_be_bytes())
                 .expect("cannot write content");
