@@ -59,12 +59,10 @@ impl AHeader {
         let mut buffer: Vec<u8> = Vec::new();
         let mut name: String = String::new();
         for i in header + 4..start {
-            print!("{}", char::from(datas[i]));
             name.push(char::from(datas[i]));
         }
         println!();
         for i in start + 4..end {
-            print!("{}", char::from(datas[i]));
             buffer.push(datas[i]);
         }
         println!();

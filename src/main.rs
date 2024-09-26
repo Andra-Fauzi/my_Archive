@@ -3,13 +3,14 @@ use std::fs;
 use structure::{AFiles, AHeader};
 
 mod archive;
+mod compression;
 mod extract;
 mod structure;
 
 fn main() {
     // for writing file into archive
     /*
-    let path = String::from("./andra.txt");
+    let path = String::from("./archive-file");
     let path2 = String::from("./an.txt");
     let file = AFiles::new(path);
     let file2 = AFiles::new(path2);
